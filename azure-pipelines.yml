@@ -2,4 +2,19 @@ trigger:
   main
   feature/*
 
-pool:
+pool: todo
+parameters:
+  - dev
+  - prod
+
+variables:
+workdir = $(System.DefaultWorkingDirectory)
+
+stages:
+- stage:  pahla pyar
+  displayName: TF init-validate-Plan
+  jobs:
+    - job: 
+      steps:
+      
+    
