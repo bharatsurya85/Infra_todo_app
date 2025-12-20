@@ -1,11 +1,11 @@
-trigger:
-  main
-  feature/*
+trigger: none
+#   main
+#   feature/*
 
 pool: todo
-parameters:
-  - dev
-  - prod
+# parameters:
+#   - dev
+#   - prod
 
 variables:
 workdir = $(System.DefaultWorkingDirectory)
@@ -16,5 +16,15 @@ stages:
   jobs:
     - job: 
       steps:
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+    backendServiceArm: 'infra-todo'
+    backendAzureRmResourceGroupName: 'bharatrg01'
+    backendAzureRmStorageAccountName: 'bharatstg25'
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'terraform.tfstate'
       
     
