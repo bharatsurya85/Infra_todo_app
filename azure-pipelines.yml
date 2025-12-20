@@ -15,6 +15,7 @@ stages:
   displayName: TF init-validate-Plan
   jobs:
     - job: tfinit
+      displayName: TF init
       steps:
       - task: TerraformTask@5
         inputs:
