@@ -18,6 +18,7 @@ stages:
       displayName: TF init
       steps:
       - task: TerraformTask@5
+        displayName: Terraform Init
         inputs:
           provider: 'azurerm'
           command: 'init'
@@ -28,13 +29,32 @@ stages:
           backendAzureRmContainerName: 'tfstate'
           backendAzureRmKey: 'terraform.tfstate'
       - task: TerraformTask@5
+        displayName: Terraform Validate
         inputs:
           provider: 'azurerm'
           command: 'validate'
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
       - task: TerraformTask@5
+        displayName: Terraform Apply
         inputs:
           provider: 'azurerm'
           command: 'apply'
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
           environmentServiceNameAzureRM: 'infra-todo'
+
+      - task: Delay@1
+        displayName: Wait for 2 Min
+        inputs:
+          delayForMinutes: '2'
+
+      - task: TerraformTask@5
+        displayName: Terraform Destory
+        inputs:
+          provider: 'azurerm'
+          command: 'destroy'
+          workingDirectory: 'workdir'
+          commandOptions: '-auto-approve'
+          environmentServiceNameAzureRM: 'infra-todo'
+
+
+
