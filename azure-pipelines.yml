@@ -42,10 +42,14 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
           environmentServiceNameAzureRM: 'infra-todo'
 
-      - task: Delay@1
-        displayName: Wait for 2 Min
+      - task: PowerShell@2
+        displayName: Wait 2 Minutes
         inputs:
-          delayForMinutes: '2'
+          targetType: 'inline'
+          script: |
+            Write-Host "Wait for 2 Minute before Destroy"
+            Start-Sleep -Seconds 120
+
 
       - task: TerraformTask@5
         displayName: Terraform Destory
