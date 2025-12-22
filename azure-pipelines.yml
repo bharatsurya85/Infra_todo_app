@@ -64,7 +64,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'destroy'
-          workingDirectory: 'workdir'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
           environmentServiceNameAzureRM: 'infra-todo'
 
 
