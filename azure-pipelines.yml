@@ -31,10 +31,10 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'validate'
-          workingDirectory: 'workdir'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
       - task: TerraformTask@5
         inputs:
           provider: 'azurerm'
           command: 'apply'
-          workingDirectory: 'workdir'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
           environmentServiceNameAzureRM: 'infra-todo'
