@@ -36,6 +36,7 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
       - task: TerraformTask@5
         displayName: Terraform Apply
+        continueOnError: true
         inputs:
           provider: 'azurerm'
           command: 'apply'
@@ -53,6 +54,7 @@ stages:
 
       - task: TerraformTask@5
         displayName: Terraform Destory
+        condition: always ()
         inputs:
           provider: 'azurerm'
           command: 'destroy'
