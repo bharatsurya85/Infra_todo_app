@@ -11,7 +11,7 @@ variables:
   workdir:  $(System.DefaultWorkingDirectory)/environments/dev
 
 stages:
-- stage:  PahlaPyar
+- stage:  IacValidation
   displayName: TF init-validate-Plan
   jobs:
     - job: tfinit
@@ -22,18 +22,25 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+          workingDirectory: workdir
           backendServiceArm: 'infra-todo'
           backendAzureRmResourceGroupName: 'bharatrg01'
           backendAzureRmStorageAccountName: 'bharatstg25'
           backendAzureRmContainerName: 'tfstate'
           backendAzureRmKey: 'terraform.tfstate'
+    - job: tfvalidate
+      displayName: TF Validate
+      steps:
       - task: TerraformTask@5
         displayName: Terraform Validate
         inputs:
           provider: 'azurerm'
           command: 'validate'
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+
+    - job: tfapply
+      displayName: TF Apply
+      steps:
       - task: TerraformTask@5
         displayName: Terraform Apply
         continueOnError: true
@@ -58,6 +65,10 @@ stages:
       # #       echo "Resolved workdir:"
       # #       echo $(workdir)
       # #       dir $(workdir)
+
+    - job: tfdestroy
+      displayName: TF destroy
+      steps:
       - task: TerraformTask@5
         displayName: Terraform Destory
         condition: always()
