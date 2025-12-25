@@ -8,7 +8,7 @@ pool: todo
 #   - prod
 
 variables:
-  workdir:  $(System.DefaultWorkingDirectory)/environments/dev
+  workdir:  '$(System.DefaultWorkingDirectory)/environments/dev'
 
 stages:
 - stage:  IacValidation
@@ -22,7 +22,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          workingDirectory: workdir
+          workingDirectory: $(workdir)
           backendServiceArm: 'infra-todo'
           backendAzureRmResourceGroupName: 'bharatrg01'
           backendAzureRmStorageAccountName: 'bharatstg25'
