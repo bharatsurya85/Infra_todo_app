@@ -36,6 +36,7 @@ stages:
           command: 'validate'
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
       - task: TerraformTask@5
+        displayName: Terraform Formatting
         inputs:
           provider: 'azurerm'
           command: 'custom'
@@ -44,6 +45,7 @@ stages:
           customCommand: 'fmt'
           environmentServiceNameAzureRM: 'infra-todo'
       - task: TerraformTask@5
+        displayName: Terraform Plan
         inputs:
           provider: 'azurerm'
           command: 'plan'
