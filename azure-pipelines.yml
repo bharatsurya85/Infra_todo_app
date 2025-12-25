@@ -52,45 +52,48 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
           environmentServiceNameAzureRM: 'infra-todo'
 
-    # - job: tfapply
-    #   displayName: TF Apply
-    #   steps:
-    #   - task: TerraformTask@5
-    #     displayName: Terraform Apply
-    #     continueOnError: true
-    #     inputs:
-    #       provider: 'azurerm'
-    #       command: 'apply'
-    #       workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-    #       environmentServiceNameAzureRM: 'infra-todo'
+- stage:  Infradeploy
+  displayName: TF Apply & Destroy
+  jobs:
+    - job: tfApplyDestroy
+      displayName: Terraform Apply & Destroy
+      steps:
+      - task: TerraformTask@5
+        displayName: Terraform Apply
+        continueOnError: true
+        inputs:
+          provider: 'azurerm'
+          command: 'apply'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+          environmentServiceNameAzureRM: 'infra-todo'
 
-    #   # - task: PowerShell@2
-    #   #   displayName: Wait 2 Minutes
-    #   #   inputs:
-    #   #     targetType: 'inline'
-    #   #     script: |
-    #   #       Write-Host "Wait for 2 Minute before Destroy"
-    #   #       Start-Sleep -Seconds 120
+      # - task: PowerShell@2
+      #   displayName: Wait 2 Minutes
+      #   inputs:
+      #     targetType: 'inline'
+      #     script: |
+      #       Write-Host "Wait for 2 Minute before Destroy"
+      #       Start-Sleep -Seconds 120
 
-    #   # # - task: PowerShell@2
-    #   # #   inputs:
-    #   # #     targetType: 'inline'
-    #   # #     script: |
-    #   # #       echo "Resolved workdir:"
-    #   # #       echo $(workdir)
-    #   # #       dir $(workdir)
+      # - task: PowerShell@2
+      #   inputs:
+      #     targetType: 'inline'
+      #     script: |
+      #       echo "Resolved workdir:"
+      #       echo $(workdir)
+      #       dir $(workdir)
 
-    # - job: tfdestroy
-    #   displayName: TF destroy
-    #   steps:
-    #   - task: TerraformTask@5
-    #     displayName: Terraform Destory
-    #     condition: always()
-    #     inputs:
-    #       provider: 'azurerm'
-    #       command: 'destroy'
-    #       workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-    #       environmentServiceNameAzureRM: 'infra-todo'
+    - job: tfdestroy
+      displayName: TF destroy
+      steps:
+      - task: TerraformTask@5
+        displayName: Terraform Destory
+        condition: always()
+        inputs:
+          provider: 'azurerm'
+          command: 'destroy'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+          environmentServiceNameAzureRM: 'infra-todo'
 
 
 
