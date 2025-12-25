@@ -54,6 +54,8 @@ stages:
 
 - stage:  Infradeploy
   displayName: TF Apply & Destroy
+  dependsOn:  IacValidation
+  condition: Succeeded()
   jobs:
     - job: tfApplyDestroy
       displayName: Terraform Apply & Destroy
