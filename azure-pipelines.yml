@@ -60,6 +60,18 @@ stages:
     - job: tfApplyDestroy
       displayName: Terraform Apply & Destroy
       steps:
+
+      - task: TerraformTask@5
+        displayName: Terraform Init
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: $(workdir)
+          backendServiceArm: 'infra-todo'
+          backendAzureRmResourceGroupName: 'bharatrg01'
+          backendAzureRmStorageAccountName: 'bharatstg25'
+          backendAzureRmContainerName: 'tfstate'
+          backendAzureRmKey: 'terraform.tfstate'
       - task: TerraformTask@5
         displayName: Terraform Apply
         continueOnError: true
@@ -85,9 +97,6 @@ stages:
       #       echo $(workdir)
       #       dir $(workdir)
 
-    - job: tfdestroy
-      displayName: TF destroy
-      steps:
       - task: TerraformTask@5
         displayName: Terraform Destory
         condition: always()
